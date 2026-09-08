@@ -2,7 +2,7 @@
 
 **Curso:** Engenharia de Software
 **Disciplina:** Projeto de Software
-**Laboratório 1 — Segundo Semestre/2026**
+**Laboratório 2 — Segundo Semestre/2026**
 **Entrega:** Lab01S01 — Modelo de Análise (4 pontos)
 
 ---
