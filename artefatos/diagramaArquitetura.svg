@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1340" height="1120" viewBox="0 0 1340 1120" font-family="Menlo, Consolas, monospace">
+<style>
+  .pkg { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 17px; font-weight: 700; }
+  .papel { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #5c7183; }
+  .item { font-size: 11px; fill: #16232e; }
+  .titulo { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; fill: #16232e; }
+  .sub { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; fill: #5c7183; }
+</style>
+<rect width="1340" height="1120" fill="#ffffff"/>
+<text x="40" y="46" class="titulo">Sistema de Matrículas — Diagrama de Arquitetura</text>
+<text x="40" y="70" class="sub">PUC Minas · Projeto de Software · Lab01S02 · dependência sempre de cima para baixo</text>
+<rect x="60" y="110" width="800" height="112" rx="8" fill="#e8f1e9" stroke="#3f6b4a" stroke-width="1.8"/>
+<text x="78" y="138" class="pkg" fill="#3f6b4a">ui</text>
+<text x="116" y="138" class="papel">Interface (linha de comando)</text>
+<rect x="78" y="154" width="108" height="22" rx="11" fill="#ffffff" stroke="#3f6b4a" stroke-width="1"/>
+<text x="132" y="169" text-anchor="middle" class="item">MenuPrincipal</text>
+<rect x="195.7" y="154" width="80" height="22" rx="11" fill="#ffffff" stroke="#3f6b4a" stroke-width="1"/>
+<text x="236" y="169" text-anchor="middle" class="item">MenuAluno</text>
+<rect x="285.79999999999995" y="154" width="108" height="22" rx="11" fill="#ffffff" stroke="#3f6b4a" stroke-width="1"/>
+<text x="340" y="169" text-anchor="middle" class="item">MenuProfessor</text>
+<rect x="78" y="184" width="115" height="22" rx="11" fill="#ffffff" stroke="#3f6b4a" stroke-width="1"/>
+<text x="135" y="199" text-anchor="middle" class="item">MenuSecretaria</text>
+<rect x="202.60000000000002" y="184" width="80" height="22" rx="11" fill="#ffffff" stroke="#3f6b4a" stroke-width="1"/>
+<text x="243" y="199" text-anchor="middle" class="item">ConsoleIO</text>
+<rect x="60" y="276" width="800" height="112" rx="8" fill="#e9eef8" stroke="#3c5288" stroke-width="1.8"/>
+<text x="78" y="304" class="pkg" fill="#3c5288">controller</text>
+<text x="204" y="304" class="papel">Orquestração</text>
+<rect x="78" y="320" width="170" height="22" rx="11" fill="#ffffff" stroke="#3c5288" stroke-width="1"/>
+<text x="163" y="335" text-anchor="middle" class="item">AutenticacaoController</text>
+<rect x="257.8" y="320" width="122" height="22" rx="11" fill="#ffffff" stroke="#3c5288" stroke-width="1"/>
+<text x="319" y="335" text-anchor="middle" class="item">AlunoController</text>
+<rect x="389.3" y="320" width="149" height="22" rx="11" fill="#ffffff" stroke="#3c5288" stroke-width="1"/>
+<text x="464" y="335" text-anchor="middle" class="item">ProfessorController</text>
+<rect x="78" y="350" width="156" height="22" rx="11" fill="#ffffff" stroke="#3c5288" stroke-width="1"/>
+<text x="156" y="365" text-anchor="middle" class="item">SecretariaController</text>
+<rect x="60" y="442" width="800" height="142" rx="8" fill="#fdeee6" stroke="#a35233" stroke-width="1.8"/>
+<text x="78" y="470" class="pkg" fill="#a35233">service</text>
+<text x="171" y="470" class="papel">Regras de negócio</text>
+<rect x="78" y="486" width="149" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="153" y="501" text-anchor="middle" class="item">AutenticacaoService</text>
+<rect x="237.1" y="486" width="115" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="294" y="501" text-anchor="middle" class="item">UsuarioService</text>
+<rect x="361.7" y="486" width="101" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="412" y="501" text-anchor="middle" class="item">CursoService</text>
+<rect x="78" y="516" width="135" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="146" y="531" text-anchor="middle" class="item">DisciplinaService</text>
+<rect x="223.3" y="516" width="128" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="288" y="531" text-anchor="middle" class="item">CurriculoService</text>
+<rect x="361.70000000000005" y="516" width="128" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="426" y="531" text-anchor="middle" class="item">MatriculaService</text>
+<rect x="78" y="546" width="122" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="139" y="561" text-anchor="middle" class="item">SemestreService</text>
+<rect x="209.5" y="546" width="128" height="22" rx="11" fill="#ffffff" stroke="#a35233" stroke-width="1"/>
+<text x="274" y="561" text-anchor="middle" class="item">ProfessorService</text>
+<rect x="60" y="638" width="800" height="142" rx="8" fill="#eee8f6" stroke="#5b4189" stroke-width="1.8"/>
+<text x="78" y="666" class="pkg" fill="#5b4189">repository</text>
+<text x="204" y="666" class="papel">Acesso a dados  «interface» Spring Data</text>
+<rect x="78" y="682" width="135" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="146" y="697" text-anchor="middle" class="item">UsuarioRepository</text>
+<rect x="223.3" y="682" width="122" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="284" y="697" text-anchor="middle" class="item">AlunoRepository</text>
+<rect x="354.8" y="682" width="149" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="429" y="697" text-anchor="middle" class="item">ProfessorRepository</text>
+<rect x="78" y="712" width="122" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="139" y="727" text-anchor="middle" class="item">CursoRepository</text>
+<rect x="209.5" y="712" width="156" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="288" y="727" text-anchor="middle" class="item">DisciplinaRepository</text>
+<rect x="375.5" y="712" width="149" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="450" y="727" text-anchor="middle" class="item">MatriculaRepository</text>
+<rect x="78" y="742" width="142" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="149" y="757" text-anchor="middle" class="item">SemestreRepository</text>
+<rect x="230.2" y="742" width="149" height="22" rx="11" fill="#ffffff" stroke="#5b4189" stroke-width="1"/>
+<text x="305" y="757" text-anchor="middle" class="item">CurriculoRepository</text>
+<rect x="60" y="834" width="800" height="142" rx="8" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.8"/>
+<text x="78" y="862" class="pkg" fill="#2f4a63">model</text>
+<text x="149" y="862" class="papel">Entidades JPA</text>
+<rect x="78" y="878" width="66" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="111" y="893" text-anchor="middle" class="item">Usuario</text>
+<rect x="154.3" y="878" width="52" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="181" y="893" text-anchor="middle" class="item">Aluno</text>
+<rect x="216.8" y="878" width="80" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="257" y="893" text-anchor="middle" class="item">Professor</text>
+<rect x="78" y="908" width="87" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="122" y="923" text-anchor="middle" class="item">Secretaria</text>
+<rect x="175.0" y="908" width="52" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="201" y="923" text-anchor="middle" class="item">Curso</text>
+<rect x="237.5" y="908" width="87" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="281" y="923" text-anchor="middle" class="item">Disciplina</text>
+<rect x="78" y="938" width="80" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="118" y="953" text-anchor="middle" class="item">Matricula</text>
+<rect x="168.1" y="938" width="73" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="205" y="953" text-anchor="middle" class="item">Semestre</text>
+<rect x="251.3" y="938" width="80" height="22" rx="11" fill="#ffffff" stroke="#2f4a63" stroke-width="1"/>
+<text x="291" y="953" text-anchor="middle" class="item">Curriculo</text>
+<line x1="460.0" y1="228" x2="460.0" y2="264" stroke="#54687a" stroke-width="2"/>
+<polygon points="460.0,274 453.0,262 467.0,262" fill="#54687a"/>
+<line x1="460.0" y1="394" x2="460.0" y2="430" stroke="#54687a" stroke-width="2"/>
+<polygon points="460.0,440 453.0,428 467.0,428" fill="#54687a"/>
+<line x1="460.0" y1="590" x2="460.0" y2="626" stroke="#54687a" stroke-width="2"/>
+<polygon points="460.0,636 453.0,624 467.0,624" fill="#54687a"/>
+<line x1="460.0" y1="786" x2="460.0" y2="822" stroke="#54687a" stroke-width="2"/>
+<polygon points="460.0,832 453.0,820 467.0,820" fill="#54687a"/>
+<line x1="460.0" y1="982" x2="460.0" y2="1018" stroke="#54687a" stroke-width="2"/>
+<polygon points="460.0,1028 453.0,1016 467.0,1016" fill="#54687a"/>
+<rect x="310" y="1030" width="300" height="52" rx="8" fill="#e4e9ed" stroke="#54687a" stroke-width="1.8"/>
+<text x="460" y="1052" text-anchor="middle" class="pkg" fill="#3a4c5c">H2 (arquivo)</text>
+<text x="460" y="1070" text-anchor="middle" class="item">./data/matriculas.mv.db</text>
+<rect x="1010" y="442" width="240" height="112" rx="8" fill="#fdf3e3" stroke="#9c6b1f" stroke-width="1.8"/>
+<text x="1026" y="470" class="pkg" fill="#9c6b1f">integration</text>
+<text x="1026" y="492" class="item">«interface»</text>
+<text x="1026" y="512" class="item">SistemaCobrancaClient</text>
+<text x="1026" y="534" class="item">SistemaCobrancaMock</text>
+<line x1="860" y1="498" x2="998" y2="498" stroke="#9c6b1f" stroke-width="2" stroke-dasharray="6 4"/>
+<polygon points="1008,498 996,492 996,504" fill="#9c6b1f"/>
+<text x="935" y="488" text-anchor="middle" class="papel">notifica (US12)</text>
+<text x="1026" y="580" class="papel">Ator externo:</text>
+<text x="1026" y="598" class="papel">Sistema de Cobranças</text>
+</svg>

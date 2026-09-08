@@ -1,0 +1,112 @@
+%% Sistema de Matriculas - PUC Minas - Lab01S02
+%% Fonte editavel do diagrama de classes (dominio).
+%% Renderiza direto no GitHub dentro de um bloco ```mermaid.
+classDiagram
+    class Usuario {
+        <<abstract>>
+        -Long id
+        -String nome
+        -String login
+        -String senha
+        -Perfil perfil
+        +autenticar(String senha) boolean
+    }
+    class Aluno {
+        -int MAX_DISCIPLINAS_OBRIGATORIAS = 4
+        -int MAX_DISCIPLINAS_OPTATIVAS = 2
+        -String matricula
+        +contarMatriculasAtivas(Semestre s, TipoDisciplina tipo) int
+    }
+    class Professor
+    class Secretaria
+    class Curso {
+        -Long id
+        -String nome
+        -int creditos
+        +adicionarDisciplina(Disciplina d)
+    }
+    class Disciplina {
+        -int CAPACIDADE_MAXIMA = 60
+        -int MINIMO_ALUNOS = 3
+        -Long id
+        -String codigo
+        -String nome
+        -int creditos
+        -TipoDisciplina tipo
+        -StatusDisciplina status
+        -int capacidadeMaxima
+        -int minimoAlunos
+        +getTotalMatriculados() int
+        +getVagasDisponiveis() int
+        +aceitaNovaMatricula() boolean
+        +atingiuMinimoAlunos() boolean
+    }
+    class Matricula {
+        -Long id
+        -TipoDisciplina tipo
+        -StatusMatricula status
+        -LocalDateTime dataMatricula
+        -LocalDateTime dataCancelamento
+        +cancelar()
+        +isAtiva() boolean
+    }
+    class Semestre {
+        -Long id
+        -int ano
+        -int periodo
+        -LocalDate inicioMatriculas
+        -LocalDate fimMatriculas
+        -StatusSemestre status
+        +periodoMatriculaAberto(LocalDate data) boolean
+    }
+    class Curriculo {
+        -Long id
+        +adicionarDisciplina(Disciplina d)
+    }
+
+    class Perfil {
+        <<enumeration>>
+        ALUNO
+        PROFESSOR
+        SECRETARIA
+    }
+    class TipoDisciplina {
+        <<enumeration>>
+        OBRIGATORIA
+        OPTATIVA
+    }
+    class StatusDisciplina {
+        <<enumeration>>
+        PLANEJADA
+        LOTADA
+        ATIVA
+        CANCELADA
+    }
+    class StatusMatricula {
+        <<enumeration>>
+        ATIVA
+        CANCELADA
+    }
+    class StatusSemestre {
+        <<enumeration>>
+        PLANEJADO
+        MATRICULAS_ABERTAS
+        ENCERRADO
+    }
+
+    Usuario <|-- Aluno
+    Usuario <|-- Professor
+    Usuario <|-- Secretaria
+
+    Curso "1" *-- "0..*" Disciplina
+    Aluno "0..*" --> "1" Curso : cursa
+    Professor "0..1" --> "0..*" Disciplina : leciona
+    Aluno "1" -- "0..*" Matricula
+    Disciplina "1" -- "0..*" Matricula
+    Semestre "1" -- "0..*" Matricula
+    Curriculo "0..*" --> "1" Curso
+    Curriculo "0..*" --> "1" Semestre
+    Curriculo "0..*" --> "0..*" Disciplina
+
+    note for Disciplina "Maximo 60 inscritos (US02, US03)\nMinimo 3 ao fim do periodo (US06)"
+    note for Aluno "Ate 4 obrigatorias e 2 optativas por semestre (US03, US04)"

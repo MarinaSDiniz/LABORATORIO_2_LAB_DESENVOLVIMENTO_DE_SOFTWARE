@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1340" viewBox="0 0 1560 1340" font-family="Menlo, Consolas, monospace">
+<style>
+  .cname { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; fill: #16232e; }
+  .stereo { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; font-style: italic; fill: #5c7183; }
+  .member { font-size: 12px; fill: #16232e; }
+  .mult { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #3d5566; }
+  .role { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic; fill: #5c7183; }
+  .nota { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #4a4213; }
+  .titulo { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; fill: #16232e; }
+  .sub { font-family: "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; fill: #5c7183; }
+</style>
+<rect width="1560" height="1340" fill="#ffffff"/>
+<text x="40" y="42" class="titulo">Sistema de Matrículas — Diagrama de Classes (domínio)</text>
+<text x="40" y="64" class="sub">PUC Minas · Projeto de Software · Lab01S02 · pacote br.pucminas.matriculas.model</text>
+<polyline points="336.5,350 336.5,322 715.5,322 715.5,296" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<polygon points="715.5,282 706.5,296 724.5,296" fill="#ffffff" stroke="#2f4a63" stroke-width="1.5"/>
+<polyline points="750.0,350 750.0,296" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<polygon points="750.0,282 741.0,296 759.0,296" fill="#ffffff" stroke="#2f4a63" stroke-width="1.5"/>
+<polyline points="1050.0,350 1050.0,322 855.5,322 855.5,296" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<polygon points="855.5,282 846.5,296 864.5,296" fill="#ffffff" stroke="#2f4a63" stroke-width="1.5"/>
+<polyline points="367,688 440,688" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<polygon points="351,688 359.0,694.0 367,688 359.0,682.0" fill="#2f4a63" stroke="#2f4a63" stroke-width="1.5"/>
+<text x="385" y="680" text-anchor="middle" class="mult">1</text>
+<text x="418" y="680" text-anchor="middle" class="mult">0..*</text>
+<polyline points="250,486 250,545 205.5,545 205.5,620" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="268" y="504" text-anchor="middle" class="mult">0..*</text>
+<text x="219.5" y="612" text-anchor="middle" class="mult">1</text>
+<text x="227.75" y="538" text-anchor="middle" class="role">cursa</text>
+<polyline points="493,440 930,440 930,600" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="511" y="432" text-anchor="middle" class="mult">1</text>
+<text x="944" y="590" text-anchor="middle" class="mult">0..*</text>
+<polyline points="750.0,402 750.0,505 571.5,505 571.5,580" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="772.0" y="420" text-anchor="middle" class="mult">0..1</text>
+<text x="551.5" y="570" text-anchor="middle" class="mult">0..*</text>
+<text x="660.75" y="498" text-anchor="middle" class="role">leciona</text>
+<polyline points="703,700 810,700" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="719" y="692" text-anchor="middle" class="mult">1</text>
+<text x="788" y="692" text-anchor="middle" class="mult">0..*</text>
+<polyline points="1180,700 1080,700" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="1166" y="692" text-anchor="middle" class="mult">1</text>
+<text x="1104" y="692" text-anchor="middle" class="mult">0..*</text>
+<polyline points="880,960 880,930 621.5,930 621.5,906" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="898" y="950" text-anchor="middle" class="mult">0..*</text>
+<text x="645.5" y="926" text-anchor="middle" class="mult">0..*</text>
+<polyline points="810,1000 205.5,1000 205.5,756" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="786" y="992" text-anchor="middle" class="mult">0..*</text>
+<text x="219.5" y="776" text-anchor="middle" class="mult">1</text>
+<polyline points="1101,1000 1336.5,1000 1336.5,793" fill="none" stroke="#2f4a63" stroke-width="1.5" />
+<text x="1125" y="992" text-anchor="middle" class="mult">0..*</text>
+<text x="1350.5" y="813" text-anchor="middle" class="mult">1</text>
+<path d="M 1180 860 H 1502 L 1520 878 V 1031 H 1180 Z" fill="#fdfbe8" stroke="#b8a53c" stroke-width="1.4"/>
+<path d="M 1502 860 V 878 H 1520" fill="none" stroke="#b8a53c" stroke-width="1.4"/>
+<text x="1192" y="886" class="nota">Regras garantidas na camada service:</text>
+<text x="1192" y="903" class="nota">• Aluno: até 4 obrigatórias e 2 optativas</text>
+<text x="1192" y="920" class="nota">  por semestre (US03, US04)</text>
+<text x="1192" y="937" class="nota">• Disciplina: máximo 60 inscritos; ao atingir,</text>
+<text x="1192" y="954" class="nota">  as inscrições são encerradas (US02, US03)</text>
+<text x="1192" y="971" class="nota">• Disciplina: mínimo 3 inscritos ao fim do</text>
+<text x="1192" y="988" class="nota">  período, senão é cancelada (US06)</text>
+<text x="1192" y="1005" class="nota">• Matrícula e cancelamento só com o período</text>
+<text x="1192" y="1022" class="nota">  do Semestre aberto (US05)</text>
+<rect x="640" y="90" width="291" height="192" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="785.5" y="106" text-anchor="middle" class="stereo">«abstract»</text>
+<text x="785.5" y="126" text-anchor="middle" class="cname">Usuario</text>
+<line x1="640" y1="136" x2="931" y2="136" stroke="#2f4a63"/>
+<text x="652" y="160" class="member">- id: Long</text>
+<text x="652" y="179" class="member">- nome: String</text>
+<text x="652" y="198" class="member">- login: String</text>
+<text x="652" y="217" class="member">- senha: String</text>
+<text x="652" y="236" class="member">- perfil: Perfil</text>
+<line x1="640" y1="247" x2="931" y2="247" stroke="#2f4a63"/>
+<text x="652" y="271" class="member">+ autenticar(senha: String): boolean</text>
+<rect x="180" y="350" width="313" height="136" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="336.5" y="370" text-anchor="middle" class="cname">Aluno</text>
+<line x1="180" y1="378" x2="493" y2="378" stroke="#2f4a63"/>
+<text x="192" y="402" class="member">- MAX_DISCIPLINAS_OBRIGATORIAS: int = 4</text>
+<text x="192" y="421" class="member">- MAX_DISCIPLINAS_OPTATIVAS: int = 2</text>
+<text x="192" y="440" class="member">- matricula: String</text>
+<line x1="180" y1="451" x2="493" y2="451" stroke="#2f4a63"/>
+<text x="192" y="475" class="member">+ contarMatriculasAtivas(s, tipo): int</text>
+<rect x="680" y="350" width="140" height="52" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="750.0" y="370" text-anchor="middle" class="cname">Professor</text>
+<line x1="680" y1="378" x2="820" y2="378" stroke="#2f4a63"/>
+<line x1="680" y1="390" x2="820" y2="390" stroke="#2f4a63"/>
+<rect x="980" y="350" width="140" height="52" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="1050.0" y="370" text-anchor="middle" class="cname">Secretaria</text>
+<line x1="980" y1="378" x2="1120" y2="378" stroke="#2f4a63"/>
+<line x1="980" y1="390" x2="1120" y2="390" stroke="#2f4a63"/>
+<rect x="60" y="620" width="291" height="136" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="205.5" y="640" text-anchor="middle" class="cname">Curso</text>
+<line x1="60" y1="648" x2="351" y2="648" stroke="#2f4a63"/>
+<text x="72" y="672" class="member">- id: Long</text>
+<text x="72" y="691" class="member">- nome: String</text>
+<text x="72" y="710" class="member">- creditos: int</text>
+<line x1="60" y1="721" x2="351" y2="721" stroke="#2f4a63"/>
+<text x="72" y="745" class="member">+ adicionarDisciplina(d: Disciplina)</text>
+<rect x="440" y="580" width="263" height="326" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="571.5" y="600" text-anchor="middle" class="cname">Disciplina</text>
+<line x1="440" y1="608" x2="703" y2="608" stroke="#2f4a63"/>
+<text x="452" y="632" class="member">- CAPACIDADE_MAXIMA: int = 60</text>
+<text x="452" y="651" class="member">- MINIMO_ALUNOS: int = 3</text>
+<text x="452" y="670" class="member">- id: Long</text>
+<text x="452" y="689" class="member">- codigo: String</text>
+<text x="452" y="708" class="member">- nome: String</text>
+<text x="452" y="727" class="member">- creditos: int</text>
+<text x="452" y="746" class="member">- tipo: TipoDisciplina</text>
+<text x="452" y="765" class="member">- status: StatusDisciplina</text>
+<text x="452" y="784" class="member">- capacidadeMaxima: int</text>
+<text x="452" y="803" class="member">- minimoAlunos: int</text>
+<line x1="440" y1="814" x2="703" y2="814" stroke="#2f4a63"/>
+<text x="452" y="838" class="member">+ getTotalMatriculados(): int</text>
+<text x="452" y="857" class="member">+ getVagasDisponiveis(): int</text>
+<text x="452" y="876" class="member">+ aceitaNovaMatricula(): boolean</text>
+<text x="452" y="895" class="member">+ atingiuMinimoAlunos(): boolean</text>
+<rect x="810" y="600" width="270" height="193" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="945.0" y="620" text-anchor="middle" class="cname">Matricula</text>
+<line x1="810" y1="628" x2="1080" y2="628" stroke="#2f4a63"/>
+<text x="822" y="652" class="member">- id: Long</text>
+<text x="822" y="671" class="member">- tipo: TipoDisciplina</text>
+<text x="822" y="690" class="member">- status: StatusMatricula</text>
+<text x="822" y="709" class="member">- dataMatricula: LocalDateTime</text>
+<text x="822" y="728" class="member">- dataCancelamento: LocalDateTime</text>
+<line x1="810" y1="739" x2="1080" y2="739" stroke="#2f4a63"/>
+<text x="822" y="763" class="member">+ cancelar()</text>
+<text x="822" y="782" class="member">+ isAtiva(): boolean</text>
+<rect x="1180" y="600" width="313" height="193" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="1336.5" y="620" text-anchor="middle" class="cname">Semestre</text>
+<line x1="1180" y1="628" x2="1493" y2="628" stroke="#2f4a63"/>
+<text x="1192" y="652" class="member">- id: Long</text>
+<text x="1192" y="671" class="member">- ano: int</text>
+<text x="1192" y="690" class="member">- periodo: int</text>
+<text x="1192" y="709" class="member">- inicioMatriculas: LocalDate</text>
+<text x="1192" y="728" class="member">- fimMatriculas: LocalDate</text>
+<text x="1192" y="747" class="member">- status: StatusSemestre</text>
+<line x1="1180" y1="758" x2="1493" y2="758" stroke="#2f4a63"/>
+<text x="1192" y="782" class="member">+ periodoMatriculaAberto(data): boolean</text>
+<rect x="810" y="960" width="291" height="98" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<text x="955.5" y="980" text-anchor="middle" class="cname">Curriculo</text>
+<line x1="810" y1="988" x2="1101" y2="988" stroke="#2f4a63"/>
+<text x="822" y="1012" class="member">- id: Long</text>
+<line x1="810" y1="1023" x2="1101" y2="1023" stroke="#2f4a63"/>
+<text x="822" y="1047" class="member">+ adicionarDisciplina(d: Disciplina)</text>
+<rect x="60" y="1140" width="140" height="131" rx="4" fill="#fdf3e3" stroke="#9c6b1f" stroke-width="1.6"/>
+<text x="130.0" y="1156" text-anchor="middle" class="stereo">«enumeration»</text>
+<text x="130.0" y="1176" text-anchor="middle" class="cname">Perfil</text>
+<line x1="60" y1="1186" x2="200" y2="1186" stroke="#9c6b1f"/>
+<text x="72" y="1210" class="member">ALUNO</text>
+<text x="72" y="1229" class="member">PROFESSOR</text>
+<text x="72" y="1248" class="member">SECRETARIA</text>
+<line x1="60" y1="1259" x2="200" y2="1259" stroke="#9c6b1f"/>
+<rect x="270" y="1140" width="140" height="112" rx="4" fill="#fdf3e3" stroke="#9c6b1f" stroke-width="1.6"/>
+<text x="340.0" y="1156" text-anchor="middle" class="stereo">«enumeration»</text>
+<text x="340.0" y="1176" text-anchor="middle" class="cname">TipoDisciplina</text>
+<line x1="270" y1="1186" x2="410" y2="1186" stroke="#9c6b1f"/>
+<text x="282" y="1210" class="member">OBRIGATORIA</text>
+<text x="282" y="1229" class="member">OPTATIVA</text>
+<line x1="270" y1="1240" x2="410" y2="1240" stroke="#9c6b1f"/>
+<rect x="500" y="1140" width="147" height="150" rx="4" fill="#fdf3e3" stroke="#9c6b1f" stroke-width="1.6"/>
+<text x="573.5" y="1156" text-anchor="middle" class="stereo">«enumeration»</text>
+<text x="573.5" y="1176" text-anchor="middle" class="cname">StatusDisciplina</text>
+<line x1="500" y1="1186" x2="647" y2="1186" stroke="#9c6b1f"/>
+<text x="512" y="1210" class="member">PLANEJADA</text>
+<text x="512" y="1229" class="member">LOTADA</text>
+<text x="512" y="1248" class="member">ATIVA</text>
+<text x="512" y="1267" class="member">CANCELADA</text>
+<line x1="500" y1="1278" x2="647" y2="1278" stroke="#9c6b1f"/>
+<rect x="760" y="1140" width="140" height="112" rx="4" fill="#fdf3e3" stroke="#9c6b1f" stroke-width="1.6"/>
+<text x="830.0" y="1156" text-anchor="middle" class="stereo">«enumeration»</text>
+<text x="830.0" y="1176" text-anchor="middle" class="cname">StatusMatricula</text>
+<line x1="760" y1="1186" x2="900" y2="1186" stroke="#9c6b1f"/>
+<text x="772" y="1210" class="member">ATIVA</text>
+<text x="772" y="1229" class="member">CANCELADA</text>
+<line x1="760" y1="1240" x2="900" y2="1240" stroke="#9c6b1f"/>
+<rect x="1010" y="1140" width="161" height="131" rx="4" fill="#fdf3e3" stroke="#9c6b1f" stroke-width="1.6"/>
+<text x="1090.5" y="1156" text-anchor="middle" class="stereo">«enumeration»</text>
+<text x="1090.5" y="1176" text-anchor="middle" class="cname">StatusSemestre</text>
+<line x1="1010" y1="1186" x2="1171" y2="1186" stroke="#9c6b1f"/>
+<text x="1022" y="1210" class="member">PLANEJADO</text>
+<text x="1022" y="1229" class="member">MATRICULAS_ABERTAS</text>
+<text x="1022" y="1248" class="member">ENCERRADO</text>
+<line x1="1010" y1="1259" x2="1171" y2="1259" stroke="#9c6b1f"/>
+</svg>
