@@ -178,5 +178,5 @@ Uma disciplina só é oferecida no semestre seguinte se atingir, ao final do per
 ## 5. Autores
 - [MarinaSDiniz](https://github.com/MarinaSDiniz)
 - [Mariana Tavares](https://github.com/Mari492)
-- Nome do(a) aluno(a) 3
+- [Milena Cardoso](https://github.com/milenacrd)
 - Nome
