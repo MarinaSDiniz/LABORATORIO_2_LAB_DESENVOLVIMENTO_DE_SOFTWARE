@@ -176,6 +176,7 @@ Uma disciplina só é oferecida no semestre seguinte se atingir, ao final do per
 ```
 
 ## 5. Autores
-- Nome do(a) aluno(a) 1
+- [MarinaSDiniz](https://github.com/MarinaSDiniz)
 - Nome do(a) aluno(a) 2
 - Nome do(a) aluno(a) 3
+- Nome
