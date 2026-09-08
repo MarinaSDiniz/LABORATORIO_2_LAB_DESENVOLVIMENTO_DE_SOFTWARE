@@ -17,7 +17,7 @@ Uma disciplina só é oferecida no semestre seguinte se atingir, ao final do per
 
 ## 2. Diagrama de Caso de Uso
 
-![Diagrama de Caso de Uso do Sistema de Matrículas](diagrama-caso-de-uso.svg)
+![Diagrama de Caso de Uso do Sistema de Matrículas](diagramaSistema.svg)
 
 **Atores identificados:**
 
@@ -171,7 +171,8 @@ Uma disciplina só é oferecida no semestre seguinte se atingir, ao final do per
 
 ```
 ├── README.md
-└── diagrama-caso-de-uso.svg
+└── artefatos
+    ├── diagramaSistema.svg
 ```
 
 ## 5. Autores
