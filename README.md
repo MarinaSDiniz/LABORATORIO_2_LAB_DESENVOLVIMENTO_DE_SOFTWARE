@@ -171,11 +171,47 @@ Uma disciplina só é oferecida no semestre seguinte se atingir, ao final do per
 
 ```
 ├── README.md
-└── artefatos
-    ├── diagramaSistema.svg
+├── artefatos/
+│   ├── diagramaSistema.svg          # Diagrama de Caso de Uso (Lab01S01)
+│   └── LABORATORIO_2_LAB_DESENVOLVIMENTO_DE_SOFTWARE.pdf
+├── docs/
+│   └── superpowers/specs/           # Documento de design da estrutura
+└── sistema-matriculas/              # Projeto Java (Lab01S02)
+    ├── pom.xml
+    └── src/main/java/br/pucminas/matriculas/
+        ├── model/                   # Entidades e enums
+        ├── repository/              # Interfaces Spring Data JPA
+        ├── service/                 # Regras de negócio
+        ├── controller/              # Orquestração
+        ├── ui/                      # Interface de linha de comando
+        ├── integration/             # Sistema de Cobranças (ator externo)
+        ├── exception/               # Exceções de regra de negócio
+        └── config/                  # Carga inicial de dados
 ```
 
-## 5. Autores
+## 5. Projeto Java
+
+O sistema é desenvolvido em **Java 21** com **Spring Boot**, persistência em **H2** (banco em arquivo) via Spring Data JPA e interface de **linha de comando**.
+
+| Camada | Responsabilidade |
+|---|---|
+| `model` | Entidades do domínio — é o que o Diagrama de Classes representa. |
+| `repository` | Acesso ao banco (interfaces Spring Data). |
+| `service` | Todas as regras de negócio: limites de 4/2 disciplinas, mínimo de 3 e máximo de 60 alunos, período de matrícula. |
+| `controller` | Traduz a entrada da interface em chamadas de serviço. |
+| `ui` | Menus de console por perfil (aluno, professor, secretaria). |
+
+**Executar:**
+
+```bash
+cd sistema-matriculas
+mvn spring-boot:run
+```
+
+> **Estado atual (Lab01S02):** classes, atributos e assinaturas de métodos.
+> Os métodos ainda não implementados lançam `UnsupportedOperationException("Implementar no Lab01S03")`.
+
+## 6. Autores
 - [MarinaSDiniz](https://github.com/MarinaSDiniz)
 - [Mariana Tavares](https://github.com/Mari492)
 - [Milena Cardoso](https://github.com/milenacrd)
