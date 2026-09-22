@@ -55,7 +55,10 @@ public class Semestre {
      * Indica se a data informada esta dentro do periodo de matriculas deste semestre.
      */
     public boolean periodoMatriculaAberto(LocalDate data) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return data != null
+            && status == StatusSemestre.MATRICULAS_ABERTAS
+            && !data.isBefore(inicioMatriculas)
+            && !data.isAfter(fimMatriculas);
     }
 
     public Long getId() {

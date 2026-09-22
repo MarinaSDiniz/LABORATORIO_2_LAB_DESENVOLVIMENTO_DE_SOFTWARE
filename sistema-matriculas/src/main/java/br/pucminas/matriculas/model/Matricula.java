@@ -68,11 +68,14 @@ public class Matricula {
      * Marca a matricula como cancelada, liberando a vaga na disciplina.
      */
     public void cancelar() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        if (isAtiva()) {
+            status = StatusMatricula.CANCELADA;
+            dataCancelamento = LocalDateTime.now();
+        }
     }
 
     public boolean isAtiva() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return status == StatusMatricula.ATIVA;
     }
 
     public Long getId() {

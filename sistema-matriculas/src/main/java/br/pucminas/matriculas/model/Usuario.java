@@ -52,7 +52,7 @@ public abstract class Usuario {
      * Verifica se a senha informada no login confere com a senha cadastrada.
      */
     public boolean autenticar(String senhaInformada) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return senha != null && senha.equals(senhaInformada);
     }
 
     public Long getId() {

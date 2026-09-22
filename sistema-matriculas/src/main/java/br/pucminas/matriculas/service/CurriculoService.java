@@ -26,17 +26,24 @@ public class CurriculoService {
      * Gera o curriculo de um curso para um semestre com as disciplinas informadas.
      */
     public Curriculo gerar(Curso curso, Semestre semestre, List<Disciplina> disciplinas) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        if (curso == null || semestre == null || disciplinas == null) {
+            throw new IllegalArgumentException("Curso, semestre e disciplinas sao obrigatorios");
+        }
+        Curriculo curriculo = curriculoRepository.findByCursoAndSemestre(curso, semestre)
+                .orElseGet(() -> new Curriculo(curso, semestre));
+        curriculo.getDisciplinas().clear();
+        disciplinas.forEach(curriculo::adicionarDisciplina);
+        return curriculoRepository.save(curriculo);
     }
 
     /**
      * Curriculos publicados para o semestre, consultados pelo aluno.
      */
     public List<Curriculo> listarPorSemestre(Semestre semestre) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return curriculoRepository.findBySemestre(semestre);
     }
 
     public Curriculo buscarPorCursoESemestre(Curso curso, Semestre semestre) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return curriculoRepository.findByCursoAndSemestre(curso, semestre).orElse(null);
     }
 }

@@ -1,6 +1,8 @@
 package br.pucminas.matriculas.ui;
 
 import br.pucminas.matriculas.controller.AutenticacaoController;
+import br.pucminas.matriculas.model.Aluno;
+import br.pucminas.matriculas.model.Professor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +38,7 @@ public class MenuPrincipal implements CommandLineRunner {
     public void run(String... args) {
         System.out.println("=========================================");
         System.out.println(" Sistema de Matriculas - PUC Minas");
-        System.out.println(" Lab01S02: estrutura de classes e stubs");
-        System.out.println(" Interface e regras: Lab01S03");
+        System.out.println(" Lab01S03: regras e interface");
         System.out.println("=========================================");
     }
 
@@ -45,13 +46,26 @@ public class MenuPrincipal implements CommandLineRunner {
      * Le login e senha e autentica o usuario.
      */
     public void exibirLogin() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        try {
+            autenticacaoController.login(console.lerTexto("Login"), console.lerSenha("Senha"));
+            direcionarPorPerfil();
+        } catch (RuntimeException ex) {
+            console.exibirErro(ex.getMessage());
+        }
     }
 
     /**
      * Direciona para o menu correspondente ao perfil do usuario autenticado.
      */
     public void direcionarPorPerfil() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        var usuario = autenticacaoController.getUsuarioAutenticado().orElse(null);
+        if (usuario == null) {
+            return;
+        }
+        switch (usuario.getPerfil()) {
+            case ALUNO -> menuAluno.exibir((Aluno) usuario);
+            case PROFESSOR -> menuProfessor.exibir((Professor) usuario);
+            case SECRETARIA -> menuSecretaria.exibir();
+        }
     }
 }

@@ -4,6 +4,7 @@ import br.pucminas.matriculas.model.Aluno;
 import br.pucminas.matriculas.model.Curso;
 import br.pucminas.matriculas.model.Professor;
 import br.pucminas.matriculas.model.Secretaria;
+import br.pucminas.matriculas.exception.LoginJaCadastradoException;
 import br.pucminas.matriculas.repository.AlunoRepository;
 import br.pucminas.matriculas.repository.ProfessorRepository;
 import br.pucminas.matriculas.repository.UsuarioRepository;
@@ -34,7 +35,11 @@ public class UsuarioService {
      * Lanca LoginJaCadastradoException se o login ja existir.
      */
     public Aluno cadastrarAluno(String nome, String login, String senha, String matricula, Curso curso) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        validarLogin(login, senha);
+        if (nome == null || nome.isBlank() || matricula == null || matricula.isBlank() || curso == null) {
+            throw new IllegalArgumentException("Dados do aluno invalidos");
+        }
+        return alunoRepository.save(new Aluno(nome.trim(), login.trim(), senha, matricula.trim(), curso));
     }
 
     /**
@@ -42,21 +47,38 @@ public class UsuarioService {
      * Lanca LoginJaCadastradoException se o login ja existir.
      */
     public Professor cadastrarProfessor(String nome, String login, String senha) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        validarLogin(login, senha);
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome do professor e obrigatorio");
+        }
+        return professorRepository.save(new Professor(nome.trim(), login.trim(), senha));
     }
 
     /**
      * Cadastra um usuario da secretaria.
      */
     public Secretaria cadastrarSecretaria(String nome, String login, String senha) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        validarLogin(login, senha);
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome da secretaria e obrigatorio");
+        }
+        return usuarioRepository.save(new Secretaria(nome.trim(), login.trim(), senha));
     }
 
     public List<Aluno> listarAlunos() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return alunoRepository.findAll();
     }
 
     public List<Professor> listarProfessores() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return professorRepository.findAll();
+    }
+
+    private void validarLogin(String login, String senha) {
+        if (login == null || login.isBlank() || senha == null || senha.isBlank()) {
+            throw new IllegalArgumentException("Login e senha sao obrigatorios");
+        }
+        if (usuarioRepository.existsByLogin(login.trim())) {
+            throw new LoginJaCadastradoException("Login ja cadastrado: " + login);
+        }
     }
 }

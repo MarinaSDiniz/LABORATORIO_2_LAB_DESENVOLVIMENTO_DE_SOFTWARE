@@ -31,27 +31,27 @@ public class AlunoController {
      * US02 - disciplinas ofertadas no periodo, com vagas e tipo.
      */
     public List<Disciplina> consultarDisciplinasDisponiveis() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return disciplinaService.listarDisponiveis();
     }
 
     /**
      * US03 e US04 - matricula em disciplina obrigatoria ou optativa.
      */
     public Matricula matricular(Aluno aluno, Long disciplinaId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return matriculaService.matricular(aluno, disciplinaService.buscarPorId(disciplinaId), semestreService.buscarSemestreAtivo());
     }
 
     /**
      * US05 - cancelamento de matricula dentro do periodo.
      */
     public void cancelarMatricula(Aluno aluno, Long disciplinaId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        matriculaService.cancelar(aluno, disciplinaService.buscarPorId(disciplinaId), semestreService.buscarSemestreAtivo());
     }
 
     /**
      * Matriculas ativas do aluno no semestre corrente.
      */
     public List<Matricula> consultarMinhasMatriculas(Aluno aluno) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return matriculaService.listarPorAluno(aluno, semestreService.buscarSemestreAtivo());
     }
 }

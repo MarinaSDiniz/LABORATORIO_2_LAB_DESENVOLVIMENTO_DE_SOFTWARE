@@ -4,9 +4,16 @@ import br.pucminas.matriculas.model.Aluno;
 import br.pucminas.matriculas.model.Disciplina;
 import br.pucminas.matriculas.model.Matricula;
 import br.pucminas.matriculas.model.Semestre;
+import br.pucminas.matriculas.model.enums.StatusMatricula;
+import br.pucminas.matriculas.exception.DisciplinaLotadaException;
+import br.pucminas.matriculas.exception.EntidadeNaoEncontradaException;
+import br.pucminas.matriculas.exception.LimiteDisciplinasExcedidoException;
+import br.pucminas.matriculas.exception.PeriodoMatriculaFechadoException;
+import br.pucminas.matriculas.integration.NotificacaoCobranca;
+import java.time.LocalDate;
+import java.util.List;
 import br.pucminas.matriculas.repository.MatriculaRepository;
 import br.pucminas.matriculas.integration.SistemaCobrancaClient;
-import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,7 +44,29 @@ public class MatriculaService {
      * Ao concluir, notifica o Sistema de Cobrancas.
      */
     public Matricula matricular(Aluno aluno, Disciplina disciplina, Semestre semestre) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        validarPeriodo(semestre);
+        if (matriculaRepository.findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre).isPresent()) {
+            throw new IllegalArgumentException("Aluno ja matriculado nesta disciplina");
+        }
+        int limite = disciplina.getTipo() == br.pucminas.matriculas.model.enums.TipoDisciplina.OBRIGATORIA
+                ? Aluno.MAX_DISCIPLINAS_OBRIGATORIAS : Aluno.MAX_DISCIPLINAS_OPTATIVAS;
+        if (aluno.contarMatriculasAtivas(semestre, disciplina.getTipo()) >= limite) {
+            throw new LimiteDisciplinasExcedidoException("Limite de disciplinas " + disciplina.getTipo() + " excedido");
+        }
+        if (!disciplina.aceitaNovaMatricula()) {
+            throw new DisciplinaLotadaException("Disciplina sem vagas: " + disciplina.getNome());
+        }
+        Matricula matricula = matriculaRepository.save(
+                new Matricula(aluno, disciplina, semestre, disciplina.getTipo()));
+        aluno.getMatriculas().add(matricula);
+        disciplina.getMatriculas().add(matricula);
+        if (disciplina.getTotalMatriculados() >= disciplina.getCapacidadeMaxima()) {
+            disciplina.setStatus(br.pucminas.matriculas.model.enums.StatusDisciplina.LOTADA);
+        }
+        sistemaCobrancaClient.notificarMatricula(
+                new NotificacaoCobranca(aluno, semestre, listarPorAluno(aluno, semestre).stream()
+                        .map(Matricula::getDisciplina).toList()));
+        return matricula;
     }
 
     /**
@@ -45,20 +74,33 @@ public class MatriculaService {
      * So e permitido dentro do periodo de matriculas.
      */
     public void cancelar(Aluno aluno, Disciplina disciplina, Semestre semestre) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        validarPeriodo(semestre);
+        Matricula matricula = matriculaRepository.findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Matricula nao encontrada"));
+        matricula.cancelar();
+        matriculaRepository.save(matricula);
+        if (disciplina.getStatus() == br.pucminas.matriculas.model.enums.StatusDisciplina.LOTADA) {
+            disciplina.setStatus(br.pucminas.matriculas.model.enums.StatusDisciplina.PLANEJADA);
+        }
     }
 
     /**
      * Matriculas ativas do aluno no semestre.
      */
     public List<Matricula> listarPorAluno(Aluno aluno, Semestre semestre) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return matriculaRepository.findByAlunoAndSemestreAndStatus(aluno, semestre, StatusMatricula.ATIVA);
     }
 
     /**
      * Matriculas ativas de uma disciplina, base para a consulta do professor (US07).
      */
     public List<Matricula> listarPorDisciplina(Disciplina disciplina) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return matriculaRepository.findByDisciplinaAndStatus(disciplina, StatusMatricula.ATIVA);
+    }
+
+    private void validarPeriodo(Semestre semestre) {
+        if (semestre == null || !semestre.periodoMatriculaAberto(LocalDate.now())) {
+            throw new PeriodoMatriculaFechadoException("Periodo de matriculas fechado");
+        }
     }
 }

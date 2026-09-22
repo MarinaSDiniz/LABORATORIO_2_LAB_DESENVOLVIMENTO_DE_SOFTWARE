@@ -85,28 +85,30 @@ public class Disciplina {
      * Numero de alunos com matricula ativa nesta disciplina.
      */
     public int getTotalMatriculados() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return (int) matriculas.stream().filter(Matricula::isAtiva).count();
     }
 
     /**
      * Numero de vagas ainda disponiveis (capacidade maxima menos matriculados).
      */
     public int getVagasDisponiveis() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return Math.max(0, capacidadeMaxima - getTotalMatriculados());
     }
 
     /**
      * Indica se a disciplina ainda aceita novas matriculas.
      */
     public boolean aceitaNovaMatricula() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return status != StatusDisciplina.CANCELADA
+            && status != StatusDisciplina.ATIVA
+            && getTotalMatriculados() < capacidadeMaxima;
     }
 
     /**
      * Indica se a disciplina atingiu o minimo de alunos para ocorrer no semestre.
      */
     public boolean atingiuMinimoAlunos() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return getTotalMatriculados() >= minimoAlunos;
     }
 
     public Long getId() {

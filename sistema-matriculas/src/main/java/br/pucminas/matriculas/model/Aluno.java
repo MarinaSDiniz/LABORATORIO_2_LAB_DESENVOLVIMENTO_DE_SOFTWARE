@@ -48,7 +48,11 @@ public class Aluno extends Usuario {
      * usado para validar os limites de 4 obrigatorias e 2 optativas.
      */
     public int contarMatriculasAtivas(Semestre semestre, br.pucminas.matriculas.model.enums.TipoDisciplina tipo) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return (int) matriculas.stream()
+            .filter(Matricula::isAtiva)
+            .filter(matricula -> matricula.getSemestre().equals(semestre))
+            .filter(matricula -> matricula.getTipo() == tipo)
+            .count();
     }
 
     public String getMatricula() {

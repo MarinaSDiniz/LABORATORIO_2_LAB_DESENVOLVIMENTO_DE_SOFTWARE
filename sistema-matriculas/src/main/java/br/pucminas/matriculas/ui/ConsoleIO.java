@@ -13,30 +13,43 @@ public class ConsoleIO {
     private final Scanner scanner = new Scanner(System.in);
 
     public String lerTexto(String rotulo) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        System.out.print(rotulo + ": ");
+        return scanner.nextLine().trim();
     }
 
     public String lerSenha(String rotulo) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return lerTexto(rotulo);
     }
 
     public int lerInteiro(String rotulo) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        while (true) {
+            try {
+                return Integer.parseInt(lerTexto(rotulo));
+            } catch (NumberFormatException ex) {
+                exibirErro("Informe um numero inteiro valido.");
+            }
+        }
     }
 
     public Long lerId(String rotulo) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        while (true) {
+            try {
+                return Long.valueOf(lerTexto(rotulo));
+            } catch (NumberFormatException ex) {
+                exibirErro("Informe um identificador valido.");
+            }
+        }
     }
 
     public void exibir(String mensagem) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        System.out.println(mensagem);
     }
 
     public void exibirErro(String mensagem) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        System.err.println("Erro: " + mensagem);
     }
 
     public void exibirTitulo(String titulo) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        System.out.println("\n=== " + titulo + " ===");
     }
 }

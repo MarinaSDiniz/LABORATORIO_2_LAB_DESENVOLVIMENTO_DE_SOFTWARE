@@ -2,6 +2,7 @@ package br.pucminas.matriculas.ui;
 
 import br.pucminas.matriculas.controller.AlunoController;
 import br.pucminas.matriculas.model.Aluno;
+import br.pucminas.matriculas.model.Disciplina;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,25 +20,51 @@ public class MenuAluno {
     }
 
     public void exibir(Aluno aluno) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        boolean sair = false;
+        while (!sair) {
+            console.exibirTitulo("Menu do aluno");
+            console.exibir("1 - Disciplinas  2 - Matricular  3 - Cancelar  4 - Minhas matriculas  0 - Sair");
+            switch (console.lerInteiro("Opcao")) {
+                case 1 -> listarDisciplinas();
+                case 2 -> matricular(aluno);
+                case 3 -> cancelarMatricula(aluno);
+                case 4 -> listarMinhasMatriculas(aluno);
+                case 0 -> sair = true;
+                default -> console.exibirErro("Opcao invalida");
+            }
+        }
     }
 
     /** US02 */
     public void listarDisciplinas() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        for (Disciplina disciplina : alunoController.consultarDisciplinasDisponiveis()) {
+            console.exibir(disciplina.getId() + " - " + disciplina.getNome() + " ("
+                    + disciplina.getTipo() + ", vagas: " + disciplina.getVagasDisponiveis() + ")");
+        }
     }
 
     /** US03 e US04 */
     public void matricular(Aluno aluno) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        try {
+            alunoController.matricular(aluno, console.lerId("Id da disciplina"));
+            console.exibir("Matricula realizada.");
+        } catch (RuntimeException ex) {
+            console.exibirErro(ex.getMessage());
+        }
     }
 
     /** US05 */
     public void cancelarMatricula(Aluno aluno) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        try {
+            alunoController.cancelarMatricula(aluno, console.lerId("Id da disciplina"));
+            console.exibir("Matricula cancelada.");
+        } catch (RuntimeException ex) {
+            console.exibirErro(ex.getMessage());
+        }
     }
 
     public void listarMinhasMatriculas(Aluno aluno) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        alunoController.consultarMinhasMatriculas(aluno).forEach(matricula ->
+            console.exibir(matricula.getDisciplina().getId() + " - " + matricula.getDisciplina().getNome()));
     }
 }

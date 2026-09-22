@@ -2,6 +2,7 @@ package br.pucminas.matriculas.controller;
 
 import br.pucminas.matriculas.model.Usuario;
 import br.pucminas.matriculas.service.AutenticacaoService;
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -19,10 +20,14 @@ public class AutenticacaoController {
     }
 
     public Usuario login(String login, String senha) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return autenticacaoService.autenticar(login, senha);
     }
 
     public void logout() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        autenticacaoService.encerrarSessao();
+    }
+
+    public Optional<Usuario> getUsuarioAutenticado() {
+        return autenticacaoService.getUsuarioAutenticado();
     }
 }

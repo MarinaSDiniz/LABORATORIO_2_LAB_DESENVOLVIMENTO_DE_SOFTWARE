@@ -44,7 +44,10 @@ public class Curso {
      * Vincula uma disciplina a este curso, mantendo os dois lados da associacao.
      */
     public void adicionarDisciplina(Disciplina disciplina) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        if (disciplina != null && !disciplinas.contains(disciplina)) {
+            disciplinas.add(disciplina);
+            disciplina.setCurso(this);
+        }
     }
 
     public Long getId() {

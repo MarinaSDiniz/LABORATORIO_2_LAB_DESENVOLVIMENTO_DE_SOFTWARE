@@ -4,6 +4,8 @@ import br.pucminas.matriculas.model.Curso;
 import br.pucminas.matriculas.model.Disciplina;
 import br.pucminas.matriculas.model.Professor;
 import br.pucminas.matriculas.model.enums.TipoDisciplina;
+import br.pucminas.matriculas.exception.EntidadeNaoEncontradaException;
+import br.pucminas.matriculas.model.enums.StatusDisciplina;
 import br.pucminas.matriculas.repository.DisciplinaRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -27,14 +29,28 @@ public class DisciplinaService {
      * Cadastra uma disciplina vinculada a um curso existente, com capacidade maxima de 60.
      */
     public Disciplina cadastrar(String codigo, String nome, int creditos, TipoDisciplina tipo, Curso curso) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        if (codigo == null || codigo.isBlank() || nome == null || nome.isBlank()
+                || creditos <= 0 || tipo == null || curso == null) {
+            throw new IllegalArgumentException("Dados da disciplina invalidos");
+        }
+        if (disciplinaRepository.findByCodigo(codigo.trim()).isPresent()) {
+            throw new IllegalArgumentException("Codigo de disciplina ja cadastrado");
+        }
+        Disciplina disciplina = new Disciplina(codigo.trim(), nome.trim(), creditos, tipo, curso);
+        curso.adicionarDisciplina(disciplina);
+        return disciplinaRepository.save(disciplina);
     }
 
     /**
      * Vincula o professor responsavel pela disciplina.
      */
     public Disciplina atribuirProfessor(Long disciplinaId, Professor professor) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        if (professor == null) {
+            throw new IllegalArgumentException("Professor e obrigatorio");
+        }
+        Disciplina disciplina = buscarPorId(disciplinaId);
+        disciplina.setProfessor(professor);
+        return disciplinaRepository.save(disciplina);
     }
 
     /**
@@ -42,17 +58,21 @@ public class DisciplinaService {
      * incluindo as que ja estao com inscricoes encerradas.
      */
     public List<Disciplina> listarDisponiveis() {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return disciplinaRepository.findAll().stream()
+            .filter(disciplina -> disciplina.getStatus() != StatusDisciplina.CANCELADA
+                && disciplina.getStatus() != StatusDisciplina.ATIVA)
+            .toList();
     }
 
     public List<Disciplina> listarPorCurso(Curso curso) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return disciplinaRepository.findByCurso(curso);
     }
 
     /**
      * Busca uma disciplina pelo id. Lanca EntidadeNaoEncontradaException se nao existir.
      */
     public Disciplina buscarPorId(Long id) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return disciplinaRepository.findById(id)
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Disciplina nao encontrada: " + id));
     }
 }

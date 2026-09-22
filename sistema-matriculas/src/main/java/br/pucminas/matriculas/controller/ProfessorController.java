@@ -20,10 +20,10 @@ public class ProfessorController {
     }
 
     public List<Disciplina> consultarMinhasDisciplinas(Professor professor) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return professorService.listarDisciplinasDoProfessor(professor);
     }
 
     public List<Aluno> consultarAlunosMatriculados(Professor professor, Long disciplinaId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return professorService.listarAlunosMatriculados(professor, disciplinaId);
     }
 }

@@ -42,36 +42,39 @@ public class SecretariaController {
 
     /** US09 */
     public Curso cadastrarCurso(String nome, int creditos) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return cursoService.cadastrar(nome, creditos);
     }
 
     /** US10 */
     public Disciplina cadastrarDisciplina(String codigo, String nome, int creditos,
                                           TipoDisciplina tipo, Long cursoId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return disciplinaService.cadastrar(codigo, nome, creditos, tipo, cursoService.buscarPorId(cursoId));
     }
 
     /** US11 */
     public Aluno cadastrarAluno(String nome, String login, String senha, String matricula, Long cursoId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return usuarioService.cadastrarAluno(nome, login, senha, matricula, cursoService.buscarPorId(cursoId));
     }
 
     /** US11 */
     public Professor cadastrarProfessor(String nome, String login, String senha) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return usuarioService.cadastrarProfessor(nome, login, senha);
     }
 
     /** US08 */
     public Curriculo gerarCurriculo(Long cursoId, Long semestreId, List<Long> disciplinaIds) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        Curso curso = cursoService.buscarPorId(cursoId);
+        Semestre semestre = semestreService.buscarPorId(semestreId);
+        List<Disciplina> disciplinas = disciplinaIds.stream().map(disciplinaService::buscarPorId).toList();
+        return curriculoService.gerar(curso, semestre, disciplinas);
     }
 
     public Semestre criarSemestre(int ano, int periodo, LocalDate inicioMatriculas, LocalDate fimMatriculas) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return semestreService.criar(ano, periodo, inicioMatriculas, fimMatriculas);
     }
 
     /** US06 - devolve as disciplinas canceladas por nao atingirem o minimo de 3 alunos. */
     public List<Disciplina> encerrarPeriodoMatriculas(Long semestreId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return semestreService.encerrarMatriculas(semestreId);
     }
 }

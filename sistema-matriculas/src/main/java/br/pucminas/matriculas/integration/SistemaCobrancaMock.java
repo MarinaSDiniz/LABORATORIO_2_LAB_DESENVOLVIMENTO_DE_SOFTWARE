@@ -11,6 +11,10 @@ public class SistemaCobrancaMock implements SistemaCobrancaClient {
 
     @Override
     public void notificarMatricula(NotificacaoCobranca notificacao) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        System.out.printf("Cobranca notificada: aluno=%s, semestre=%d/%d, disciplinas=%d%n",
+                notificacao.aluno().getNome(),
+                notificacao.semestre().getAno(),
+                notificacao.semestre().getPeriodo(),
+                notificacao.disciplinas().size());
     }
 }

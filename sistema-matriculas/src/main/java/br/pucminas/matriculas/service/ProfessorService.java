@@ -3,6 +3,7 @@ package br.pucminas.matriculas.service;
 import br.pucminas.matriculas.model.Aluno;
 import br.pucminas.matriculas.model.Disciplina;
 import br.pucminas.matriculas.model.Professor;
+import br.pucminas.matriculas.exception.EntidadeNaoEncontradaException;
 import br.pucminas.matriculas.repository.DisciplinaRepository;
 import br.pucminas.matriculas.repository.MatriculaRepository;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ProfessorService {
      * Disciplinas lecionadas pelo professor autenticado.
      */
     public List<Disciplina> listarDisciplinasDoProfessor(Professor professor) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        return disciplinaRepository.findByProfessor(professor);
     }
 
     /**
@@ -36,6 +37,13 @@ public class ProfessorService {
      * Deve recusar disciplina que nao pertenca ao professor informado.
      */
     public List<Aluno> listarAlunosMatriculados(Professor professor, Long disciplinaId) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        Disciplina disciplina = disciplinaRepository.findById(disciplinaId)
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Disciplina nao encontrada: " + disciplinaId));
+        if (disciplina.getProfessor() == null || !disciplina.getProfessor().equals(professor)) {
+            throw new EntidadeNaoEncontradaException("Disciplina nao pertence ao professor informado");
+        }
+        return matriculaRepository.findByDisciplinaAndStatus(
+                disciplina, br.pucminas.matriculas.model.enums.StatusMatricula.ATIVA)
+            .stream().map(br.pucminas.matriculas.model.Matricula::getAluno).toList();
     }
 }

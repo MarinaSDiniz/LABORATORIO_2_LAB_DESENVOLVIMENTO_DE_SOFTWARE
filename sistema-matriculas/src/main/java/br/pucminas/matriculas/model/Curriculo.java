@@ -53,7 +53,9 @@ public class Curriculo {
      * Inclui uma disciplina na oferta do semestre.
      */
     public void adicionarDisciplina(Disciplina disciplina) {
-        throw new UnsupportedOperationException("Implementar no Lab01S03");
+        if (disciplina != null && !disciplinas.contains(disciplina)) {
+            disciplinas.add(disciplina);
+        }
     }
 
     public Long getId() {
