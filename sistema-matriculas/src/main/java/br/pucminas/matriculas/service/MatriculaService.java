@@ -43,31 +43,75 @@ public class MatriculaService {
      * matricula duplicada e vagas disponiveis (maximo 60).
      * Ao concluir, notifica o Sistema de Cobrancas.
      */
-    public Matricula matricular(Aluno aluno, Disciplina disciplina, Semestre semestre) {
-        validarPeriodo(semestre);
-        if (matriculaRepository.findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre).isPresent()) {
-            throw new IllegalArgumentException("Aluno ja matriculado nesta disciplina");
-        }
-        int limite = disciplina.getTipo() == br.pucminas.matriculas.model.enums.TipoDisciplina.OBRIGATORIA
-                ? Aluno.MAX_DISCIPLINAS_OBRIGATORIAS : Aluno.MAX_DISCIPLINAS_OPTATIVAS;
-        if (aluno.contarMatriculasAtivas(semestre, disciplina.getTipo()) >= limite) {
-            throw new LimiteDisciplinasExcedidoException("Limite de disciplinas " + disciplina.getTipo() + " excedido");
-        }
-        if (!disciplina.aceitaNovaMatricula()) {
-            throw new DisciplinaLotadaException("Disciplina sem vagas: " + disciplina.getNome());
-        }
-        Matricula matricula = matriculaRepository.save(
-                new Matricula(aluno, disciplina, semestre, disciplina.getTipo()));
-        aluno.getMatriculas().add(matricula);
-        disciplina.getMatriculas().add(matricula);
-        if (disciplina.getTotalMatriculados() >= disciplina.getCapacidadeMaxima()) {
-            disciplina.setStatus(br.pucminas.matriculas.model.enums.StatusDisciplina.LOTADA);
-        }
-        sistemaCobrancaClient.notificarMatricula(
-                new NotificacaoCobranca(aluno, semestre, listarPorAluno(aluno, semestre).stream()
-                        .map(Matricula::getDisciplina).toList()));
-        return matricula;
+public Matricula matricular(Aluno aluno, Disciplina disciplina, Semestre semestre) {
+    validarPeriodo(semestre);
+
+    if (matriculaRepository
+            .findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre)
+            .isPresent()) {
+        throw new IllegalArgumentException(
+                "Aluno ja matriculado nesta disciplina");
     }
+
+    int limite = disciplina.getTipo()
+            == br.pucminas.matriculas.model.enums.TipoDisciplina.OBRIGATORIA
+            ? Aluno.MAX_DISCIPLINAS_OBRIGATORIAS
+            : Aluno.MAX_DISCIPLINAS_OPTATIVAS;
+
+    long quantidadeAtual =
+            matriculaRepository.countByAlunoAndSemestreAndTipoAndStatus(
+                    aluno,
+                    semestre,
+                    disciplina.getTipo(),
+                    StatusMatricula.ATIVA);
+
+    if (quantidadeAtual >= limite) {
+        throw new LimiteDisciplinasExcedidoException(
+                "Limite de disciplinas "
+                        + disciplina.getTipo()
+                        + " excedido");
+    }
+
+    long totalMatriculados =
+            matriculaRepository.countByDisciplinaAndStatus(
+                    disciplina,
+                    StatusMatricula.ATIVA);
+
+    if (totalMatriculados >= disciplina.getCapacidadeMaxima()
+            || disciplina.getStatus()
+                == br.pucminas.matriculas.model.enums.StatusDisciplina.CANCELADA
+            || disciplina.getStatus()
+                == br.pucminas.matriculas.model.enums.StatusDisciplina.ATIVA) {
+        throw new DisciplinaLotadaException(
+                "Disciplina sem vagas: " + disciplina.getNome());
+    }
+
+    Matricula matricula = matriculaRepository.save(
+            new Matricula(
+                    aluno,
+                    disciplina,
+                    semestre,
+                    disciplina.getTipo()));
+
+    totalMatriculados++;
+
+    if (totalMatriculados >= disciplina.getCapacidadeMaxima()) {
+        disciplina.setStatus(
+                br.pucminas.matriculas.model.enums.StatusDisciplina.LOTADA);
+    }
+
+    sistemaCobrancaClient.notificarMatricula(
+            new NotificacaoCobranca(
+                    aluno,
+                    semestre,
+                    listarPorAluno(aluno, semestre)
+                            .stream()
+                            .map(Matricula::getDisciplina)
+                            .toList()));
+
+    return matricula;
+}
+
 
     /**
      * Cancela uma matricula do aluno, liberando a vaga.
@@ -88,8 +132,9 @@ public class MatriculaService {
      * Matriculas ativas do aluno no semestre.
      */
     public List<Matricula> listarPorAluno(Aluno aluno, Semestre semestre) {
-        return matriculaRepository.findByAlunoAndSemestreAndStatus(aluno, semestre, StatusMatricula.ATIVA);
-    }
+    return matriculaRepository.findByAlunoAndSemestreAndStatusComDisciplina(
+            aluno, semestre, StatusMatricula.ATIVA);
+}
 
     /**
      * Matriculas ativas de uma disciplina, base para a consulta do professor (US07).

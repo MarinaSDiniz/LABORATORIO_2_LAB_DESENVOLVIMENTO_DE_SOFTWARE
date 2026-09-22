@@ -58,11 +58,12 @@ public class DisciplinaService {
      * incluindo as que ja estao com inscricoes encerradas.
      */
     public List<Disciplina> listarDisponiveis() {
-        return disciplinaRepository.findAll().stream()
-            .filter(disciplina -> disciplina.getStatus() != StatusDisciplina.CANCELADA
-                && disciplina.getStatus() != StatusDisciplina.ATIVA)
-            .toList();
-    }
+    return disciplinaRepository.findAllComMatriculas().stream()
+        .filter(disciplina -> disciplina.getStatus() != StatusDisciplina.CANCELADA
+            && disciplina.getStatus() != StatusDisciplina.ATIVA)
+        .toList();
+}
+
 
     public List<Disciplina> listarPorCurso(Curso curso) {
         return disciplinaRepository.findByCurso(curso);

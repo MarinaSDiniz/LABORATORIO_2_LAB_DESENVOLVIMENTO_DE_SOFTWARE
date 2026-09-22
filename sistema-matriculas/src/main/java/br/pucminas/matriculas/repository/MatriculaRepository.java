@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+
 
 /**
  * Acesso as matriculas (US03, US04, US05, US06, US07).
@@ -29,4 +31,18 @@ public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
             Aluno aluno, Semestre semestre, TipoDisciplina tipo, StatusMatricula status);
 
     long countByDisciplinaAndStatus(Disciplina disciplina, StatusMatricula status);
+
+    @Query("""
+    select m
+    from Matricula m
+    join fetch m.disciplina
+    where m.aluno = :aluno
+    and m.semestre = :semestre
+    and m.status = :status
+""")
+List<Matricula> findByAlunoAndSemestreAndStatusComDisciplina(
+        Aluno aluno,
+        Semestre semestre,
+        StatusMatricula status);
+
 }

@@ -5,6 +5,8 @@ import br.pucminas.matriculas.model.Aluno;
 import br.pucminas.matriculas.model.Professor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import br.pucminas.matriculas.config.CargaInicial;
+
 
 /**
  * Porta de entrada da interface de linha de comando.
@@ -21,17 +23,20 @@ public class MenuPrincipal implements CommandLineRunner {
     private final MenuAluno menuAluno;
     private final MenuProfessor menuProfessor;
     private final MenuSecretaria menuSecretaria;
+    private final CargaInicial cargaInicial;
+
 
     public MenuPrincipal(ConsoleIO console,
                          AutenticacaoController autenticacaoController,
                          MenuAluno menuAluno,
                          MenuProfessor menuProfessor,
-                         MenuSecretaria menuSecretaria) {
+                         MenuSecretaria menuSecretaria, CargaInicial cargaInicial) {
         this.console = console;
         this.autenticacaoController = autenticacaoController;
         this.menuAluno = menuAluno;
         this.menuProfessor = menuProfessor;
         this.menuSecretaria = menuSecretaria;
+        this.cargaInicial = cargaInicial;
     }
 
     @Override
@@ -40,6 +45,9 @@ public class MenuPrincipal implements CommandLineRunner {
         System.out.println(" Sistema de Matriculas - PUC Minas");
         System.out.println(" Lab01S03: regras e interface");
         System.out.println("=========================================");
+        
+        cargaInicial.carregar();
+        exibirLogin();
     }
 
     /**
