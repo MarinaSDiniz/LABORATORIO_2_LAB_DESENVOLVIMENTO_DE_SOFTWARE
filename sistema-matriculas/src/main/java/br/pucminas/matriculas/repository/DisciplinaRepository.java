@@ -27,7 +27,7 @@ public interface DisciplinaRepository extends JpaRepository<Disciplina, Long> {
     List<Disciplina> findByTipo(TipoDisciplina tipo);
 
     List<Disciplina> findByStatus(StatusDisciplina status);
-    @Query("select distinct d from Disciplina d left join fetch d.matriculas")
+    @Query("select distinct d from Disciplina d join fetch d.curso left join fetch d.matriculas")
 List<Disciplina> findAllComMatriculas();
 
 }

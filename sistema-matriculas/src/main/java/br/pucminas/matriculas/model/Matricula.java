@@ -74,6 +74,17 @@ public class Matricula {
         }
     }
 
+    /**
+     * Reativa uma matricula cancelada quando o aluno volta a se inscrever na disciplina.
+     */
+    public void reativar() {
+        if (!isAtiva()) {
+            status = StatusMatricula.ATIVA;
+            dataMatricula = LocalDateTime.now();
+            dataCancelamento = null;
+        }
+    }
+
     public boolean isAtiva() {
         return status == StatusMatricula.ATIVA;
     }

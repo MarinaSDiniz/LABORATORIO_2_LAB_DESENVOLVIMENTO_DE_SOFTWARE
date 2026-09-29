@@ -14,6 +14,7 @@ import br.pucminas.matriculas.service.SemestreService;
 import br.pucminas.matriculas.service.UsuarioService;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -73,8 +74,29 @@ public class SecretariaController {
         return semestreService.criar(ano, periodo, inicioMatriculas, fimMatriculas);
     }
 
-    /** US06 - devolve as disciplinas canceladas por nao atingirem o minimo de 3 alunos. */
-    public List<Disciplina> encerrarPeriodoMatriculas(Long semestreId) {
+    /** US06 - devolve as disciplinas canceladas por nao atingirem o minimo de 3 alunos e os alunos a notificar. */
+    public Map<Disciplina, List<Aluno>> encerrarPeriodoMatriculas(Long semestreId) {
         return semestreService.encerrarMatriculas(semestreId);
+    }
+
+    /** US07 - vincula o professor que leciona a disciplina. */
+    public Disciplina atribuirProfessor(Long disciplinaId, Long professorId) {
+        return disciplinaService.atribuirProfessor(disciplinaId, usuarioService.buscarProfessorPorId(professorId));
+    }
+
+    public List<Curso> listarCursos() {
+        return cursoService.listar();
+    }
+
+    public List<Disciplina> listarDisciplinas() {
+        return disciplinaService.listarTodas();
+    }
+
+    public List<Professor> listarProfessores() {
+        return usuarioService.listarProfessores();
+    }
+
+    public List<Semestre> listarSemestres() {
+        return semestreService.listar();
     }
 }

@@ -3,6 +3,7 @@ package br.pucminas.matriculas.ui;
 import br.pucminas.matriculas.controller.AutenticacaoController;
 import br.pucminas.matriculas.model.Aluno;
 import br.pucminas.matriculas.model.Professor;
+import java.util.NoSuchElementException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import br.pucminas.matriculas.config.CargaInicial;
@@ -47,19 +48,34 @@ public class MenuPrincipal implements CommandLineRunner {
         System.out.println("=========================================");
         
         cargaInicial.carregar();
-        exibirLogin();
+        try {
+            while (exibirLogin()) {
+                autenticacaoController.logout();
+            }
+        } catch (NoSuchElementException ex) {
+            // fim da entrada padrao: encerra a aplicacao
+        }
     }
 
     /**
      * Le login e senha e autentica o usuario.
+     * Devolve false quando o login fica em branco, sinal para encerrar o sistema.
      */
-    public void exibirLogin() {
+    public boolean exibirLogin() {
+        console.exibirTitulo("Login (deixe em branco para sair)");
+        String login = console.lerTexto("Login");
+        if (login.isBlank()) {
+            return false;
+        }
         try {
-            autenticacaoController.login(console.lerTexto("Login"), console.lerSenha("Senha"));
+            autenticacaoController.login(login, console.lerSenha("Senha"));
             direcionarPorPerfil();
+        } catch (NoSuchElementException ex) {
+            throw ex;
         } catch (RuntimeException ex) {
             console.exibirErro(ex.getMessage());
         }
+        return true;
     }
 
     /**

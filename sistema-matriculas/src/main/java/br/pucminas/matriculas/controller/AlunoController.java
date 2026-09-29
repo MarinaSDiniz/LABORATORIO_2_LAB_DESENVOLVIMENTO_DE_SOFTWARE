@@ -6,7 +6,10 @@ import br.pucminas.matriculas.model.Matricula;
 import br.pucminas.matriculas.service.DisciplinaService;
 import br.pucminas.matriculas.service.MatriculaService;
 import br.pucminas.matriculas.service.SemestreService;
+import br.pucminas.matriculas.model.Curriculo;
+import br.pucminas.matriculas.service.CurriculoService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -18,13 +21,16 @@ public class AlunoController {
     private final DisciplinaService disciplinaService;
     private final MatriculaService matriculaService;
     private final SemestreService semestreService;
+    private final CurriculoService curriculoService;
 
     public AlunoController(DisciplinaService disciplinaService,
                            MatriculaService matriculaService,
-                           SemestreService semestreService) {
+                           SemestreService semestreService,
+                           CurriculoService curriculoService) {
         this.disciplinaService = disciplinaService;
         this.matriculaService = matriculaService;
         this.semestreService = semestreService;
+        this.curriculoService = curriculoService;
     }
 
     /**
@@ -46,6 +52,13 @@ public class AlunoController {
      */
     public void cancelarMatricula(Aluno aluno, Long disciplinaId) {
         matriculaService.cancelar(aluno, disciplinaService.buscarPorId(disciplinaId), semestreService.buscarSemestreAtivo());
+    }
+
+    /**
+     * US08 - curriculo do curso do aluno no semestre com matriculas abertas.
+     */
+    public Optional<Curriculo> consultarCurriculo(Aluno aluno) {
+        return curriculoService.buscarComDisciplinas(aluno.getCurso().getId(), semestreService.buscarSemestreAtivo());
     }
 
     /**

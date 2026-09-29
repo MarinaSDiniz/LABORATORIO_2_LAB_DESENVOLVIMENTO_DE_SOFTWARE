@@ -112,7 +112,7 @@
 <text x="452" y="857" class="member">+ getVagasDisponiveis(): int</text>
 <text x="452" y="876" class="member">+ aceitaNovaMatricula(): boolean</text>
 <text x="452" y="895" class="member">+ atingiuMinimoAlunos(): boolean</text>
-<rect x="810" y="600" width="270" height="193" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
+<rect x="810" y="600" width="270" height="212" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
 <text x="945.0" y="620" text-anchor="middle" class="cname">Matricula</text>
 <line x1="810" y1="628" x2="1080" y2="628" stroke="#2f4a63"/>
 <text x="822" y="652" class="member">- id: Long</text>
@@ -123,6 +123,7 @@
 <line x1="810" y1="739" x2="1080" y2="739" stroke="#2f4a63"/>
 <text x="822" y="763" class="member">+ cancelar()</text>
 <text x="822" y="782" class="member">+ isAtiva(): boolean</text>
+<text x="822" y="801" class="member">+ reativar()</text>
 <rect x="1180" y="600" width="313" height="193" rx="4" fill="#eef4fb" stroke="#2f4a63" stroke-width="1.6"/>
 <text x="1336.5" y="620" text-anchor="middle" class="cname">Semestre</text>
 <line x1="1180" y1="628" x2="1493" y2="628" stroke="#2f4a63"/>

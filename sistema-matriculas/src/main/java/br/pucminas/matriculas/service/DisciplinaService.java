@@ -37,7 +37,6 @@ public class DisciplinaService {
             throw new IllegalArgumentException("Codigo de disciplina ja cadastrado");
         }
         Disciplina disciplina = new Disciplina(codigo.trim(), nome.trim(), creditos, tipo, curso);
-        curso.adicionarDisciplina(disciplina);
         return disciplinaRepository.save(disciplina);
     }
 
@@ -64,6 +63,10 @@ public class DisciplinaService {
         .toList();
 }
 
+
+    public List<Disciplina> listarTodas() {
+        return disciplinaRepository.findAllComMatriculas();
+    }
 
     public List<Disciplina> listarPorCurso(Curso curso) {
         return disciplinaRepository.findByCurso(curso);

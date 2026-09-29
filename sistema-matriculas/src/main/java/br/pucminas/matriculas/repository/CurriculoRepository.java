@@ -6,6 +6,7 @@ import br.pucminas.matriculas.model.Semestre;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,4 +18,7 @@ public interface CurriculoRepository extends JpaRepository<Curriculo, Long> {
     Optional<Curriculo> findByCursoAndSemestre(Curso curso, Semestre semestre);
 
     List<Curriculo> findBySemestre(Semestre semestre);
+
+    @Query("select c from Curriculo c left join fetch c.disciplinas where c.curso.id = :cursoId and c.semestre = :semestre")
+    Optional<Curriculo> findByCursoIdAndSemestreComDisciplinas(Long cursoId, Semestre semestre);
 }

@@ -12,6 +12,7 @@ import br.pucminas.matriculas.exception.PeriodoMatriculaFechadoException;
 import br.pucminas.matriculas.integration.NotificacaoCobranca;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import br.pucminas.matriculas.repository.MatriculaRepository;
 import br.pucminas.matriculas.integration.SistemaCobrancaClient;
 import org.springframework.stereotype.Service;
@@ -46,9 +47,10 @@ public class MatriculaService {
 public Matricula matricular(Aluno aluno, Disciplina disciplina, Semestre semestre) {
     validarPeriodo(semestre);
 
-    if (matriculaRepository
-            .findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre)
-            .isPresent()) {
+    Optional<Matricula> existente = matriculaRepository
+            .findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre);
+
+    if (existente.filter(Matricula::isAtiva).isPresent()) {
         throw new IllegalArgumentException(
                 "Aluno ja matriculado nesta disciplina");
     }
@@ -86,12 +88,14 @@ public Matricula matricular(Aluno aluno, Disciplina disciplina, Semestre semestr
                 "Disciplina sem vagas: " + disciplina.getNome());
     }
 
-    Matricula matricula = matriculaRepository.save(
+    Matricula matricula = existente.orElseGet(() ->
             new Matricula(
                     aluno,
                     disciplina,
                     semestre,
                     disciplina.getTipo()));
+    matricula.reativar();
+    matricula = matriculaRepository.save(matricula);
 
     totalMatriculados++;
 
@@ -120,6 +124,7 @@ public Matricula matricular(Aluno aluno, Disciplina disciplina, Semestre semestr
     public void cancelar(Aluno aluno, Disciplina disciplina, Semestre semestre) {
         validarPeriodo(semestre);
         Matricula matricula = matriculaRepository.findByAlunoAndDisciplinaAndSemestre(aluno, disciplina, semestre)
+                .filter(Matricula::isAtiva)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Matricula nao encontrada"));
         matricula.cancelar();
         matriculaRepository.save(matricula);

@@ -6,6 +6,7 @@ import br.pucminas.matriculas.model.Disciplina;
 import br.pucminas.matriculas.model.Semestre;
 import br.pucminas.matriculas.repository.CurriculoRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,6 +42,13 @@ public class CurriculoService {
      */
     public List<Curriculo> listarPorSemestre(Semestre semestre) {
         return curriculoRepository.findBySemestre(semestre);
+    }
+
+    /**
+     * Curriculo do curso no semestre com as disciplinas ja carregadas, exibido ao aluno.
+     */
+    public Optional<Curriculo> buscarComDisciplinas(Long cursoId, Semestre semestre) {
+        return curriculoRepository.findByCursoIdAndSemestreComDisciplinas(cursoId, semestre);
     }
 
     public Curriculo buscarPorCursoESemestre(Curso curso, Semestre semestre) {

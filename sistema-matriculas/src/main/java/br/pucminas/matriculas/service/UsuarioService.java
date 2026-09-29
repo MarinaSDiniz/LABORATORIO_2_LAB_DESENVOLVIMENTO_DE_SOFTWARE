@@ -1,5 +1,6 @@
 package br.pucminas.matriculas.service;
 
+import br.pucminas.matriculas.exception.EntidadeNaoEncontradaException;
 import br.pucminas.matriculas.model.Aluno;
 import br.pucminas.matriculas.model.Curso;
 import br.pucminas.matriculas.model.Professor;
@@ -67,6 +68,14 @@ public class UsuarioService {
 
     public List<Aluno> listarAlunos() {
         return alunoRepository.findAll();
+    }
+
+    /**
+     * Busca um professor pelo id. Lanca EntidadeNaoEncontradaException se nao existir.
+     */
+    public Professor buscarProfessorPorId(Long id) {
+        return professorRepository.findById(id)
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Professor nao encontrado: " + id));
     }
 
     public List<Professor> listarProfessores() {

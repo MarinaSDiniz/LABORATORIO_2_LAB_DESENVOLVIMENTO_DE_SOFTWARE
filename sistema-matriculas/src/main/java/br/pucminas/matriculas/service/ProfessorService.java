@@ -39,10 +39,10 @@ public class ProfessorService {
     public List<Aluno> listarAlunosMatriculados(Professor professor, Long disciplinaId) {
         Disciplina disciplina = disciplinaRepository.findById(disciplinaId)
             .orElseThrow(() -> new EntidadeNaoEncontradaException("Disciplina nao encontrada: " + disciplinaId));
-        if (disciplina.getProfessor() == null || !disciplina.getProfessor().equals(professor)) {
+        if (disciplina.getProfessor() == null || !disciplina.getProfessor().getId().equals(professor.getId())) {
             throw new EntidadeNaoEncontradaException("Disciplina nao pertence ao professor informado");
         }
-        return matriculaRepository.findByDisciplinaAndStatus(
+        return matriculaRepository.findByDisciplinaAndStatusComAluno(
                 disciplina, br.pucminas.matriculas.model.enums.StatusMatricula.ATIVA)
             .stream().map(br.pucminas.matriculas.model.Matricula::getAluno).toList();
     }

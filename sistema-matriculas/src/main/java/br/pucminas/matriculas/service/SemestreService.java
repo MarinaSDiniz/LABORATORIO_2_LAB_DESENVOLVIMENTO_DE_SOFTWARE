@@ -6,7 +6,12 @@ import br.pucminas.matriculas.repository.DisciplinaRepository;
 import br.pucminas.matriculas.repository.MatriculaRepository;
 import br.pucminas.matriculas.repository.SemestreRepository;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import br.pucminas.matriculas.exception.PeriodoMatriculaFechadoException;
+import br.pucminas.matriculas.model.Aluno;
+import br.pucminas.matriculas.model.Matricula;
 import br.pucminas.matriculas.exception.EntidadeNaoEncontradaException;
 import br.pucminas.matriculas.model.enums.StatusDisciplina;
 import br.pucminas.matriculas.model.enums.StatusMatricula;
@@ -60,28 +65,38 @@ public class SemestreService {
 
     /**
      * Encerra o periodo: ativa as disciplinas com no minimo 3 alunos, cancela as demais
-     * e devolve a lista de disciplinas canceladas para que os alunos sejam notificados.
+     * e devolve cada disciplina cancelada com os alunos que precisam ser notificados.
      */
-    public List<Disciplina> encerrarMatriculas(Long semestreId) {
+    public Map<Disciplina, List<Aluno>> encerrarMatriculas(Long semestreId) {
         Semestre semestre = buscar(semestreId);
-        List<Disciplina> canceladas = disciplinaRepository.findAll().stream()
+        if (semestre.getStatus() != StatusSemestre.MATRICULAS_ABERTAS) {
+            throw new PeriodoMatriculaFechadoException("Periodo de matriculas ja encerrado");
+        }
+        List<Disciplina> emOferta = disciplinaRepository.findAll().stream()
             .filter(disciplina -> disciplina.getStatus() != StatusDisciplina.CANCELADA
                 && disciplina.getStatus() != StatusDisciplina.ATIVA)
-            .filter(disciplina -> {
-                boolean ocorre = matriculaRepository.countByDisciplinaAndStatus(
-                    disciplina, StatusMatricula.ATIVA) >= disciplina.getMinimoAlunos();
-                disciplina.setStatus(ocorre ? StatusDisciplina.ATIVA : StatusDisciplina.CANCELADA);
-                return !ocorre;
-            }).toList();
-        canceladas.forEach(disciplina -> matriculaRepository.findByDisciplinaAndStatus(disciplina, StatusMatricula.ATIVA)
-            .forEach(matricula -> {
-                matricula.cancelar();
-                matriculaRepository.save(matricula);
-            }));
-        disciplinaRepository.saveAll(disciplinaRepository.findAll());
+            .toList();
+        Map<Disciplina, List<Aluno>> canceladas = new LinkedHashMap<>();
+        for (Disciplina disciplina : emOferta) {
+            List<Matricula> ativas = matriculaRepository.findByDisciplinaAndStatusComAluno(
+                disciplina, StatusMatricula.ATIVA);
+            if (ativas.size() >= disciplina.getMinimoAlunos()) {
+                disciplina.setStatus(StatusDisciplina.ATIVA);
+                continue;
+            }
+            disciplina.setStatus(StatusDisciplina.CANCELADA);
+            ativas.forEach(Matricula::cancelar);
+            matriculaRepository.saveAll(ativas);
+            canceladas.put(disciplina, ativas.stream().map(Matricula::getAluno).toList());
+        }
+        disciplinaRepository.saveAll(emOferta);
         semestre.setStatus(StatusSemestre.ENCERRADO);
         semestreRepository.save(semestre);
         return canceladas;
+    }
+
+    public List<Semestre> listar() {
+        return semestreRepository.findAll();
     }
 
     /**
@@ -89,7 +104,7 @@ public class SemestreService {
      */
     public Semestre buscarSemestreAtivo() {
         return semestreRepository.findByStatus(StatusSemestre.MATRICULAS_ABERTAS).stream()
-                .findFirst().orElseThrow(() -> new EntidadeNaoEncontradaException("Nenhum semestre com matriculas abertas"));
+                .findFirst().orElseThrow(() -> new PeriodoMatriculaFechadoException("Periodo de matriculas fechado"));
     }
 
     public Semestre buscarPorId(Long id) {

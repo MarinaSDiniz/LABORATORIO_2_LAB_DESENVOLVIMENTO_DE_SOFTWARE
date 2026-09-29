@@ -30,6 +30,15 @@ public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
     long countByAlunoAndSemestreAndTipoAndStatus(
             Aluno aluno, Semestre semestre, TipoDisciplina tipo, StatusMatricula status);
 
+    @Query("""
+    select m
+    from Matricula m
+    join fetch m.aluno
+    where m.disciplina = :disciplina
+    and m.status = :status
+""")
+    List<Matricula> findByDisciplinaAndStatusComAluno(Disciplina disciplina, StatusMatricula status);
+
     long countByDisciplinaAndStatus(Disciplina disciplina, StatusMatricula status);
 
     @Query("""
